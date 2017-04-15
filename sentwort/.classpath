@@ -28,6 +28,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/MONSTER/Swe573/sentwort/src/main/webapp/WEB-INF/lib/kendo-taglib-2012.3.1114.jar"/>
+	<classpathentry kind="lib" path="C:/Users/MONSTER/Swe573/sentwort/src/main/webapp/WEB-INF/lib/kendo-taglib-2017.1.223.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

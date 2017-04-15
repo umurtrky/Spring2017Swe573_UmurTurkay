@@ -5,51 +5,41 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:url value="/resources/web/grid/clientsDb.png" var="backgroundUrl" />
-<c:url value="/users" var="transportReadUrl" />
+<c:url value="/messages" var="messagesUrl" />
 
 <demo:header />
 
-<kendo:grid name="grid" groupable="true" sortable="true" style="height:550px;">
+<kendo:grid name="grid" rowTemplate="row-template" groupable="true" sortable="true" style="height:550px;">
 	<kendo:grid-pageable refresh="true" pageSizes="true" buttonCount="5">
 	</kendo:grid-pageable>
     <kendo:grid-columns>
-        <kendo:grid-column title="username" field="username" />
+        <kendo:grid-column title="Account" field="account" width="150" />
+        <kendo:grid-column title="Tweet" field="message" width="150" />
+        <kendo:grid-column title="Sentiment" field="sentiment" width="150" />
+        <kendo:grid-column title="Share Date" field="sharedate" width="150" />
     </kendo:grid-columns>
     <kendo:dataSource pageSize="10">
-         <kendo:dataSource-schema>
-            <kendo:dataSource-schema-model>
-                <kendo:dataSource-schema-model-fields>
-                    <kendo:dataSource-schema-model-field name="username" type="string" />
-                </kendo:dataSource-schema-model-fields>
-            </kendo:dataSource-schema-model>
-        </kendo:dataSource-schema>
         <kendo:dataSource-transport>
-            <kendo:dataSource-transport-read url="${transportReadUrl}"/>
+            <kendo:dataSource-transport-read url="${messagesUrl}"/>
         </kendo:dataSource-transport>
     </kendo:dataSource>
 </kendo:grid>
 
+<script id="row-template" type="text/x-kendo-template">
+        <tr data-uid="#: id #">
+            <td class="details">
+               <span class="title">#: account #</span>
+            </td>
+			<td class="details">
+               <span class="description">#: message#</span>
+            </td>
+			<td class="details">
+               <span class="description">#: sentiment# </span>
+            </td>
+			<td class="details">
+               <span class="description">#: sharedate# </span>
+            </td>
+        </tr>
+    </script>
 
- <style type="text/css">
-    .customer-photo {
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background-size: 32px 35px;
-        background-position: center center;
-        vertical-align: middle;
-        line-height: 32px;
-        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
-        margin-left: 5px;
-    }
-
-    .customer-name {
-        display: inline-block;
-        vertical-align: middle;
-        line-height: 32px;
-        padding-left: 3px;
-    }
-</style>  
 <demo:footer />

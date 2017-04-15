@@ -26,16 +26,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.swe.dev.dao.UserDao;
+import com.swe.dev.model.Message;
 import com.swe.dev.model.User;
+import com.swe.dev.service.TwitterService;
 import com.swe.dev.service.UserService;
 
 @Controller
 @RequestMapping("/")
-@SessionAttributes("roles")
 public class AppController {
  
     @Autowired
     UserService userService;
+    
+    @Autowired
+    private TwitterService twitterService;
     
     @Autowired
     UserDao user;
@@ -53,39 +57,15 @@ public class AppController {
     AuthenticationTrustResolver authenticationTrustResolver;
      
      
-    /**
-     * This method will list all existing users.
-     */
-    @RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-    public String listUsers(ModelMap model) {
- 
-        List<User> users = userService.findAllUsers();
-        model.addAttribute("users", users);
-        model.addAttribute("loggedinuser", getPrincipal());
-        return "userslist";
-    }
-    
-    @RequestMapping(value = {"/userss"}, method = RequestMethod.GET)
-    public String displayUsers() {
-        return "users";
-    }
-    
-//    @RequestMapping(value = "/ulist", method = RequestMethod.GET)
-//    public @ResponseBody List<User> users() {
-// 
-//        return userService.findAllUsers();
-//        //return users;
-//    }
-    
-    @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public String index() {
         return "index";
     }
     
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public @ResponseBody List<User> users() {
+    @RequestMapping(value = "/messages", method = RequestMethod.GET)
+    public @ResponseBody List<Message> messages() {
  
-        return user.findAllUsers();
+    	return twitterService.getTweets();
         //return users;
     }
  
