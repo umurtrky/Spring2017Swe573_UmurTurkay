@@ -9,5 +9,7 @@ public interface AppConfigDao {
      
     public List<AppConfig> getConfig();
     public AppConfig findByAppname(String appname);
+    public void updateSinceId(AppConfig config, String sinceid);
+    //public void updateMaxId(AppConfig config, Integer maxid);
  
 }

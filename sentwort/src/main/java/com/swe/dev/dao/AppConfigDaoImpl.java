@@ -19,10 +19,10 @@ import com.swe.dev.model.AppConfig;
 import com.swe.dev.model.User;
  
  
- 
+@Repository("appConfigDao")
 @Transactional
 @Component
-public class AppConfigDaoImpl implements AppConfigDao {
+public class AppConfigDaoImpl extends AbstractDao<Integer, AppConfig> implements AppConfigDao {
 	
 	static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
  
@@ -43,5 +43,15 @@ public class AppConfigDaoImpl implements AppConfigDao {
 
         return appconfig;
     }
+    
+    public void updateSinceId(AppConfig config, String sinceid){
+    	config.setSinceid(sinceid);
+    	update(config);
+    }
+    
+//    public void updateMaxId(AppConfig config, Integer maxid){
+//    	config.setSinceid(maxid);
+//    	persist(config);
+//    }
  
 }
