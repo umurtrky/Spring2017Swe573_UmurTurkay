@@ -15,14 +15,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
- 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
  
 @Entity
 @Table(name="MESSAGE")
 public class Message implements Serializable{
     
-    private Integer id;
+    private String id;
  
     
     private String message;
@@ -37,7 +38,7 @@ public class Message implements Serializable{
     private String links;
  
     
-    private Date createDate;
+    private Date createdate;
     
     
     private Date sharedate;
@@ -50,13 +51,12 @@ public class Message implements Serializable{
 //    private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
  
     @Id
-    @Column(name="id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    public Integer getId() {
+    @Column(name="id", nullable=false)
+    public String getId() {
         return id;
     }
  
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
  
@@ -80,7 +80,7 @@ public class Message implements Serializable{
 		this.account = account;
 	}
 
-	@NotEmpty
+	@NotNull
     @Column(name="sentiment", nullable=false)
 	public Integer getSentiment() {
 		return sentiment;
@@ -100,7 +100,17 @@ public class Message implements Serializable{
 		this.links = links;
 	}
 
-	@NotEmpty
+	@NotNull
+	@Column(name="createdate", nullable=false)
+	public Date getCreatedate() {
+		return createdate;
+	}
+
+	public void setCreatedate(Date createdate) {
+		this.createdate = createdate;
+	}
+
+	@NotNull
     @Column(name="sharedate", nullable=false)
 	public Date getSharedate() {
 		return sharedate;

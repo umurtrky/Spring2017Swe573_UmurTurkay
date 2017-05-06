@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -31,6 +32,10 @@ public class AppConfig implements Serializable{
     private String accesstoken;
     
     private String accesstokensecret;
+    
+    private String sinceid;
+    
+    private String maxid;
     
     private Date createDate;
     
@@ -112,6 +117,30 @@ public class AppConfig implements Serializable{
 
 
 	@NotEmpty
+    @Column(name="sinceid", nullable=false)
+	public String getSinceid() {
+		return sinceid;
+	}
+
+
+	public void setSinceid(String sinceid) {
+		this.sinceid = sinceid;
+	}
+
+
+	@NotEmpty
+    @Column(name="maxid", nullable=false)
+	public String getMaxid() {
+		return maxid;
+	}
+
+
+	public void setMaxid(String maxid) {
+		this.maxid = maxid;
+	}
+
+
+	@NotNull
     @Column(name="createDate", nullable=false)
 	public Date getCreateDate() {
 		return createDate;
@@ -123,7 +152,6 @@ public class AppConfig implements Serializable{
 	}
 
 
-	@NotEmpty
     @Column(name="updateDate")
 	public Date getUpdateDate() {
 		return updateDate;

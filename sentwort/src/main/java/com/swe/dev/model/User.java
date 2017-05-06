@@ -15,8 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
- 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
  
 @Entity
 @Table(name="USER")
@@ -94,8 +96,9 @@ public class User implements Serializable{
 		this.secretanswer = secretanswer;
 	}
 
-	@NotEmpty
+	@NotNull
     @Column(name="createdate", nullable=false)
+	@DateTimeFormat(pattern="dd.MM.yyyy HH:mm:ss")
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -104,8 +107,7 @@ public class User implements Serializable{
 		this.createDate = createDate;
 	}
 
-	@NotEmpty
-    @Column(name="updatedate", nullable=false)
+    @Column(name="updatedate")
 	public Date getUpdateDate() {
 		return updateDate;
 	}
