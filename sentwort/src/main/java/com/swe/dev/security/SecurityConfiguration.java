@@ -36,12 +36,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
  
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+    	http.csrf().disable();
     	http
         .formLogin()
             .loginPage("/login")
             .usernameParameter("username").passwordParameter("password").and()
             .rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
-            .tokenValiditySeconds(86400).and().csrf()
+            .tokenValiditySeconds(86400)
             .and()
         .authorizeRequests().antMatchers("/", "/list")
         .authenticated();
