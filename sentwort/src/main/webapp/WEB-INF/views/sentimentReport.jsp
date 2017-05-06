@@ -21,7 +21,6 @@
 		
 		<script src="<c:url value='/js/jquery.min.js' />"></script>
 		<script src="<c:url value='/js/kendo.all.min.js' />"></script>
-		<script src="<c:url value='/js/kendo.timezones.min.js' />"></script>
 		<script src="<c:url value='/js/console.js'/>"></script>
 		<script src="<c:url value='/js/prettify.js'/>"></script>
     </head>
@@ -65,7 +64,19 @@
                		<span class="description">#: message#</span>
             	</td>
 				<td class="details">
-               		<span class="description">#: sentiment# </span>
+					#if(sentiment == 2) {
+						#<span class="description">Neutral</span>#
+					}
+					else if(sentiment == 0) {
+						#<span class="description">Negative</span>#
+					}
+					else if(sentiment == 4) {
+						#<span class="description">Positive</span>#
+					}
+					else if(sentiment == -1) {
+						#<span class="description">Not analyzed</span>#
+					}
+					#
             	</td>
 				<td class="details">
                		<span class="description">#: sharedate# </span>

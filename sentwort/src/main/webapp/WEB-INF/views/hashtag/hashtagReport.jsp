@@ -21,7 +21,6 @@
 		
 		<script src="<c:url value='/js/jquery.min.js' />"></script>
 		<script src="<c:url value='/js/kendo.all.min.js' />"></script>
-		<script src="<c:url value='/js/kendo.timezones.min.js' />"></script>
 		<script src="<c:url value='/js/console.js'/>"></script>
 		<script src="<c:url value='/js/prettify.js'/>"></script>
     </head>
@@ -36,7 +35,7 @@
 				</td>
 				<td valign="top" style="border:1px solid;">
 				<div id="homeDiv">
-					<kendo:grid name="grid" groupable="true" sortable="true" style="height:550px;">
+					<kendo:grid name="grid" rowTemplate="row-template" groupable="true" sortable="true" style="height:550px;">
 						<kendo:grid-pageable refresh="true" pageSizes="true" buttonCount="5">
 						</kendo:grid-pageable>
 					    <kendo:grid-columns>
@@ -64,5 +63,30 @@
 			</tr>
 		</table>
 
+		<script id="row-template" type="text/x-kendo-template">
+        	<tr data-uid="#: id #">
+           	 	<td class="details">
+               		<span class="title">#: hashtagname #</span>
+            	</td>
+				<td class="details">
+               		<span class="description">#: numOfTweets#</span>
+            	</td>
+				<td class="details">
+					#if(sentiment == 2) {
+						#<span class="description">Neutral</span>#
+					}
+					else if(sentiment == 0) {
+						#<span class="description">Negative</span>#
+					}
+					else if(sentiment == 4) {
+						#<span class="description">Positive</span>#
+					}
+					else if(sentiment == -1) {
+						#<span class="description">Not analyzed</span>#
+					}
+					#
+            	</td>
+        	</tr>
+    	</script>
 	</body>
 </html>
