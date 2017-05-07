@@ -28,41 +28,43 @@
 		<div>
 		<%@include file="../authheader.jsp" %>
 		</div>
-		<table>
-			<tr>
-				<td valign="top" style="border:1px solid;">
-					<%@include file="../leftMenu.jsp" %>
-				</td>
-				<td valign="top" style="border:1px solid;">
-				<div id="homeDiv">
-					<kendo:grid name="grid" rowTemplate="row-template" groupable="true" sortable="true" style="height:550px;">
-						<kendo:grid-pageable refresh="true" pageSizes="true" buttonCount="5">
-						</kendo:grid-pageable>
-					    <kendo:grid-columns>
-					        <kendo:grid-column title="Hashtag" field="hashtagname" width="150" />
-					        <kendo:grid-column title="Number of Tweets" field="numOfTweets" width="150" />
-					        <kendo:grid-column title="Sentiment" field="sentiment" width="150" />
-					    </kendo:grid-columns>
-					    <kendo:dataSource pageSize="10">
-					    	<kendo:dataSource-schema>
-					            <kendo:dataSource-schema-model>
-					                <kendo:dataSource-schema-model-fields>
-					                    <kendo:dataSource-schema-model-field name="hashtagname" type="string" />
-					                    <kendo:dataSource-schema-model-field name="numOfTweets" type="number" />
-					                    <kendo:dataSource-schema-model-field name="sentiment" type="number" />
-					                </kendo:dataSource-schema-model-fields>
-					            </kendo:dataSource-schema-model>
-					        </kendo:dataSource-schema>
-					        <kendo:dataSource-transport>
-					            <kendo:dataSource-transport-read url="${hashtagReportUrl}"/>
-					        </kendo:dataSource-transport>
-					    </kendo:dataSource>
-					</kendo:grid>
-					</div>
-				</td>
-			</tr>
-		</table>
-
+		<div><p></p> </div>
+		<div>
+			<table>
+				<tr>
+					<td valign="top" style="border:1px solid;">
+						<%@include file="../leftMenu.jsp" %>
+					</td>
+					<td valign="top" style="border:1px solid;">
+					<div id="homeDiv">
+						<kendo:grid name="gridHashtag" rowTemplate="row-template" groupable="true" sortable="true" resizable="true" style="height:550px;">
+							<kendo:grid-pageable refresh="true" pageSizes="true" buttonCount="5">
+							</kendo:grid-pageable>
+						    <kendo:grid-columns>
+						        <kendo:grid-column title="Hashtag" field="hashtagname" width="150" />
+						        <kendo:grid-column title="Number of Tweets" field="numOfTweets" width="150" />
+						        <kendo:grid-column title="Sentiment" field="sentiment" width="150" />
+						    </kendo:grid-columns>
+						    <kendo:dataSource pageSize="10">
+						    	<kendo:dataSource-schema>
+						            <kendo:dataSource-schema-model>
+						                <kendo:dataSource-schema-model-fields>
+						                    <kendo:dataSource-schema-model-field name="hashtagname" type="string" />
+						                    <kendo:dataSource-schema-model-field name="numOfTweets" type="number" />
+						                    <kendo:dataSource-schema-model-field name="sentiment" type="number" />
+						                </kendo:dataSource-schema-model-fields>
+						            </kendo:dataSource-schema-model>
+						        </kendo:dataSource-schema>
+						        <kendo:dataSource-transport>
+						            <kendo:dataSource-transport-read url="${hashtagReportUrl}"/>
+						        </kendo:dataSource-transport>
+						    </kendo:dataSource>
+						</kendo:grid>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
 		<script id="row-template" type="text/x-kendo-template">
         	<tr data-uid="#: id #">
            	 	<td class="details">

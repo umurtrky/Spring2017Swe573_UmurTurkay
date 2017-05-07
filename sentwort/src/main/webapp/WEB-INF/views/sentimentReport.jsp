@@ -28,32 +28,35 @@
 		<div>
 		<%@include file="authheader.jsp" %>
 		</div>
-		<table>
-			<tr>
-				<td valign="top" style="border:1px solid;">
-					<%@include file="leftMenu.jsp" %>
-				</td>
-				<td valign="top" style="border:1px solid;">
-				<div id="homeDiv">
-					<kendo:grid name="grid" rowTemplate="row-template" groupable="true" sortable="true" style="height:650px;">
-						<kendo:grid-pageable refresh="true" pageSizes="true" buttonCount="5">
-						</kendo:grid-pageable>
-					    <kendo:grid-columns>
-					        <kendo:grid-column title="Account" field="account" width="150" />
-					        <kendo:grid-column title="Tweet" field="message" width="150" />
-					        <kendo:grid-column title="Sentiment" field="sentiment" width="150" />
-					        <kendo:grid-column title="Share Date" field="sharedate" width="150" />
-					    </kendo:grid-columns>
-					    <kendo:dataSource pageSize="10">
-					        <kendo:dataSource-transport>
-					            <kendo:dataSource-transport-read url="${messagesUrl}"/>
-					        </kendo:dataSource-transport>
-					    </kendo:dataSource>
-					</kendo:grid>
-					</div>
-				</td>
-			</tr>
-		</table>
+		<div><p></p></div>
+		<div>
+			<table>
+				<tr>
+					<td valign="top" style="border:1px solid;">
+						<%@include file="leftMenu.jsp" %>
+					</td>
+					<td valign="top" style="border:1px solid;">
+					<div id="homeDiv">
+						<kendo:grid name="gridSentiment" rowTemplate="row-template" groupable="true" sortable="true" resizable="true" style="height:650px;">
+							<kendo:grid-pageable refresh="true" pageSizes="true" buttonCount="5">
+							</kendo:grid-pageable>
+						    <kendo:grid-columns>
+						        <kendo:grid-column title="Account" field="account" width="150" />
+						        <kendo:grid-column title="Tweet" field="message" width="150" />
+						        <kendo:grid-column title="Sentiment" field="sentiment" width="150" />
+						        <kendo:grid-column title="Share Date" field="sharedate" width="150" />
+						    </kendo:grid-columns>
+						    <kendo:dataSource pageSize="10">
+						        <kendo:dataSource-transport>
+						            <kendo:dataSource-transport-read url="${messagesUrl}"/>
+						        </kendo:dataSource-transport>
+						    </kendo:dataSource>
+						</kendo:grid>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
 
 		<script id="row-template" type="text/x-kendo-template">
         	<tr data-uid="#: id #">
@@ -79,7 +82,7 @@
 					#
             	</td>
 				<td class="details">
-               		<span class="description">#: sharedate# </span>
+               		<span class="description">#: new Date(sharedate).toString().substring(4,24)#</span>
             	</td>
         	</tr>
     	</script>
