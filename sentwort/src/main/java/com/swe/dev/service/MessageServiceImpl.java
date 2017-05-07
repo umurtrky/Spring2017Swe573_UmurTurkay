@@ -58,7 +58,7 @@ public class MessageServiceImpl implements MessageService{
     	List<Message> messages = new ArrayList<Message>();
 		
 		Query<Message> query = sessionFactory.getCurrentSession().createQuery("SELECT m from Message m, MessageHashtag mht "
-				+ "where mht.id.messageid=m.id and mht.id.hashtagid in :hashtagids");
+				+ "where mht.id.messageid=m.id and mht.id.hashtagid in :hashtagids order by m.sharedate desc");
 		query.setParameter("hashtagids", hashtagIds);
 		
 		messages.addAll(query.list());
