@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.swe.dev.dao.UserDao;
 import com.swe.dev.model.Hashtag;
 import com.swe.dev.model.Message;
+import com.swe.dev.model.Statistics;
 import com.swe.dev.model.User;
 import com.swe.dev.service.HashtagService;
 import com.swe.dev.service.MessageService;
@@ -81,6 +82,7 @@ public class AppController {
         }
     	else{
     		model.addAttribute("loggedinuser", getPrincipal());
+    		
     		Long numofhashtags = hashtagService.getNumberOfHashtags(-1);
         	Long numofactivehashtags = hashtagService.getNumberOfHashtags(1);
         	Long numofpassivehashtags = numofhashtags - numofactivehashtags;
@@ -90,15 +92,35 @@ public class AppController {
         	Long numOfNegativeMessages = messageService.getNumOfMessagesBySentiment(0);
         	Long numOfNeutralMessages = messageService.getNumOfMessagesBySentiment(2);
         	Long numOfAnalyzedMessages = numOfPositiveMessages + numOfNegativeMessages + numOfNeutralMessages;
+//        	
+//        	model.addAttribute("numofhashtags", numofhashtags);
+//        	model.addAttribute("numofactivehashtags", numofactivehashtags);
+//        	model.addAttribute("numofpassivehashtags", numofpassivehashtags);
+//        	model.addAttribute("numOfMessages", numOfMessages);
+//        	model.addAttribute("numOfPositiveMessages", numOfPositiveMessages);
+//        	model.addAttribute("numOfNegativeMessages", numOfNegativeMessages);
+//        	model.addAttribute("numOfNeutralMessages", numOfNeutralMessages);
+//        	model.addAttribute("numOfAnalyzedMessages", numOfAnalyzedMessages);
         	
-        	model.addAttribute("numofhashtags", numofhashtags);
-        	model.addAttribute("numofactivehashtags", numofactivehashtags);
-        	model.addAttribute("numofpassivehashtags", numofpassivehashtags);
-        	model.addAttribute("numOfMessages", numOfMessages);
-        	model.addAttribute("numOfPositiveMessages", numOfPositiveMessages);
-        	model.addAttribute("numOfNegativeMessages", numOfNegativeMessages);
-        	model.addAttribute("numOfNeutralMessages", numOfNeutralMessages);
-        	model.addAttribute("numOfAnalyzedMessages", numOfAnalyzedMessages);
+        	List<Statistics> pieChartDataHashtag = new ArrayList<Statistics>();
+        	pieChartDataHashtag.add(new Statistics("active",numofactivehashtags,"#0066ff"));
+        	pieChartDataHashtag.add(new Statistics("passive",numofpassivehashtags,"#cc3300"));
+        	
+        	List<Statistics> pieChartDataMessage = new ArrayList<Statistics>();
+        	pieChartDataMessage.add(new Statistics("nonanalyzed",numOfMessages - numOfAnalyzedMessages,"#cc3300"));
+        	pieChartDataMessage.add(new Statistics("analyzed",numOfAnalyzedMessages,"#0066ff"));
+        	
+        	List<Statistics> pieChartDataSentiment = new ArrayList<Statistics>();
+        	pieChartDataSentiment.add(new Statistics("positive",numOfPositiveMessages,"#0066ff"));
+        	pieChartDataSentiment.add(new Statistics("negative",numOfNegativeMessages,"#cc3300"));
+        	pieChartDataSentiment.add(new Statistics("neutral",numOfNeutralMessages,"#ff9933"));
+
+            model.addAttribute("pieChartDataHashtag", pieChartDataHashtag);
+            model.addAttribute("pieChartDataMessage", pieChartDataMessage);
+            model.addAttribute("pieChartDataSentiment", pieChartDataSentiment);
+//            model.addAttribute("pieData", pieChartData);
+//            model.addAttribute("pieData", pieChartData);
+        	
         	return "index";
     	}
     }

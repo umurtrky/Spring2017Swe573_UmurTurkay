@@ -29,77 +29,63 @@
 		<div>
 		<%@include file="authheader.jsp" %>
 		</div>
-		<table>
-			<tr>
-				<td valign="top" style="border:1px solid;">
-					<%@include file="leftMenu.jsp" %>
-				</td>
-				<td valign="top" style="border:1px solid;">
-					<div id="homeDiv">
-						<table style="height:650px; width:1300px;">
+		<div><p></p></div>
+		<div>
+			<table>
+				<tr>
+					<td valign="top" style="border:1px solid;">
+						<%@include file="leftMenu.jsp" %>
+					</td>
+					<td style="border:1px solid; width:1300px; height:100%;">
+						<table>
 							<tr>
-								<td>
-									<table style="border:1px solid; height:450px; width:300px; text-align:center;">
-										<tr>
-											<td style="">Hashtag</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td>Total</td>
-											<td>${numofhashtags}</td>
-										</tr>
-										<tr>
-											<td>Active</td>
-											<td>${numofactivehashtags}</td>
-										</tr>
-										<tr>
-											<td>Passive</td>
-											<td>${numofpassivehashtags}</td>
-										</tr>
-									</table>
+								<td style="width:390px;">
+									<div class="demo-section k-content wide" style="height:650px;">
+									    <kendo:chart name="hashtagChart" style="height:100%;">
+									        <kendo:chart-title text="Hashtags" />
+									        <kendo:chart-legend position="top" />
+									        <kendo:chart-series>
+									           <kendo:chart-seriesItem type="pie" data="${pieChartDataHashtag}">
+									               <kendo:chart-seriesItem-labels visible="true" template="#= category # \n #= kendo.format('{0:P}', percentage)#" />
+									           </kendo:chart-seriesItem>
+									        </kendo:chart-series>
+									        <kendo:chart-tooltip visible="true" template="#= category # - #= value#" />
+									    </kendo:chart>
+									</div>
 								</td>
-								<td>
-									<table style="border:1px solid; height:450px; width:300px; text-align:center;">
-										<tr>
-											<td>Tweet</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td>Total</td>
-											<td>${numOfMessages}</td>
-										</tr>
-										<tr>
-											<td>Analyzed</td>
-											<td>${numOfAnalyzedMessages} - </td>
-										</tr>
-									</table>
+								<td style="width:430px;">
+									<div class="demo-section k-content wide" style="height:650px;">
+									    <kendo:chart name="messageChart" style="height:100%;">
+									        <kendo:chart-title text="Messages" />
+									        <kendo:chart-legend position="top" />
+									        <kendo:chart-series>
+									           <kendo:chart-seriesItem type="pie" data="${pieChartDataMessage}">
+									               <kendo:chart-seriesItem-labels visible="true" template="#= category # \n #= kendo.format('{0:P}', percentage)#" />
+									           </kendo:chart-seriesItem>
+									        </kendo:chart-series>
+									        <kendo:chart-tooltip visible="true" template="#= category # - #= value#" />
+									    </kendo:chart>
+									</div>
 								</td>
-								<td>
-									<table style="border:1px solid; height:450px; width:300px; text-align:center;">
-										<tr>
-											<td>Sentiment</td>
-											<td></td>
-										</tr>
-										<tr>
-											<td>Positive</td>
-											<td>${numOfPositiveMessages}</td>
-										</tr>
-										<tr>
-											<td>Negative</td>
-											<td>${numOfNegativeMessages} - </td>
-										</tr>
-										<tr>
-											<td>Neutral</td>
-											<td>${numOfNeutralMessages} - </td>
-										</tr>
-									</table>
+								<td style="width:470px;">
+									<div class="demo-section k-content wide" style="height:650px;">
+									    <kendo:chart name="sentimentChart" style="height:100%;">
+									        <kendo:chart-title text="Sentiment" />
+									        <kendo:chart-legend position="top" />
+									        <kendo:chart-series>
+									           <kendo:chart-seriesItem type="pie" data="${pieChartDataSentiment}">
+									               <kendo:chart-seriesItem-labels visible="true" template="#= category # \n #= kendo.format('{0:P}', percentage)#" />
+									           </kendo:chart-seriesItem>
+									        </kendo:chart-series>
+									        <kendo:chart-tooltip visible="true" template="#= category # - #= value#" />
+									    </kendo:chart>
+									</div>
 								</td>
-							</tr>
-						</table>
-					</div>
-				</td>
-			</tr>
-		</table>
-
+						 	</tr>
+						 </table>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</body>
 </html>

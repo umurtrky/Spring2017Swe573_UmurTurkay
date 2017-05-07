@@ -1,3 +1,19 @@
+.appButton {
+    background: #4E9CAF;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none !important
+}
+
+#btnLogout
+{
+	width: 70px;
+    height: 25px;
+}
+
 .leftButton {
     display: block;
     width: 180px;
@@ -10,3 +26,31 @@
     font-weight: bold;
     text-decoration: none !important
 }
+
+.logoutButton {
+    display: inline;
+    width: 70px;
+    height: 25px;
+    background: #4E9CAF;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none !important
+}
+
+#gridSentiment .k-grid-header .k-header, #gridHashtag .k-grid-header .k-header
+{
+       background-color: #4E9CAF;
+}
+
+#gridSentiment .k-grouping-header, #gridHashtag .k-grouping-header
+{
+       background-color: #4E9CAF;
+}
+
+ #gridSentiment .k-grid-pager,  #gridHashtag .k-grid-pager
+ {
+ 		background-color: #4E9CAF;
+ }
