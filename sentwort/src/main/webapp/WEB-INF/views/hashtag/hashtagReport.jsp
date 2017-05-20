@@ -42,8 +42,11 @@
 							</kendo:grid-pageable>
 						    <kendo:grid-columns>
 						        <kendo:grid-column title="Hashtag" field="hashtagname" width="150" />
-						        <kendo:grid-column title="Number of Tweets" field="numOfTweets" width="150" />
-						        <kendo:grid-column title="Sentiment" field="sentiment" width="150" />
+						        <kendo:grid-column title="Total" field="numOfTweets" width="150" />
+						        <kendo:grid-column title="Nonanalyzed" field="numOfNonanalyzedTweets" width="150" />
+						        <kendo:grid-column title="Positive" field="numOfPositiveTweets" width="150" />
+						        <kendo:grid-column title="Neutral" field="numOfNeutralTweets" width="150" />
+						        <kendo:grid-column title="Negative" field="numOfNegativeTweets" width="150" />
 						    </kendo:grid-columns>
 						    <kendo:dataSource pageSize="10">
 						    	<kendo:dataSource-schema>
@@ -51,7 +54,10 @@
 						                <kendo:dataSource-schema-model-fields>
 						                    <kendo:dataSource-schema-model-field name="hashtagname" type="string" />
 						                    <kendo:dataSource-schema-model-field name="numOfTweets" type="number" />
-						                    <kendo:dataSource-schema-model-field name="sentiment" type="number" />
+						                    <kendo:dataSource-schema-model-field name="numOfNonanalyzedTweets" type="number" />
+						                    <kendo:dataSource-schema-model-field name="numOfPositiveTweets" type="number" />
+						                    <kendo:dataSource-schema-model-field name="numOfNeutralTweets" type="number" />
+						                    <kendo:dataSource-schema-model-field name="numOfNegativeTweets" type="number" />
 						                </kendo:dataSource-schema-model-fields>
 						            </kendo:dataSource-schema-model>
 						        </kendo:dataSource-schema>
@@ -66,7 +72,7 @@
 			</table>
 		</div>
 		<script id="row-template" type="text/x-kendo-template">
-        	<tr data-uid="#: id #">
+        	<tr data-uid="#: hashtagname #">
            	 	<td class="details">
                		<span class="title">#: hashtagname #</span>
             	</td>
@@ -74,19 +80,16 @@
                		<span class="description">#: numOfTweets#</span>
             	</td>
 				<td class="details">
-					#if(sentiment == 2) {
-						#<span class="description">Neutral</span>#
-					}
-					else if(sentiment == 0) {
-						#<span class="description">Negative</span>#
-					}
-					else if(sentiment == 4) {
-						#<span class="description">Positive</span>#
-					}
-					else if(sentiment == -1) {
-						#<span class="description">Not analyzed</span>#
-					}
-					#
+               		<span class="description">#: numOfNonanalyzedTweets#</span>
+            	</td>
+				<td class="details">
+               		<span class="description">#: numOfPositiveTweets#</span>
+            	</td>
+				<td class="details">
+               		<span class="description">#: numOfNeutralTweets#</span>
+            	</td>
+				<td class="details">
+               		<span class="description">#: numOfNegativeTweets#</span>
             	</td>
         	</tr>
     	</script>

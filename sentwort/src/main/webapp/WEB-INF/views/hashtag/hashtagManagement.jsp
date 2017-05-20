@@ -147,7 +147,6 @@
 		    function onClickStart(e) {
 		    	var grid = $("#gridHashtag").data("kendoGrid");
 		    	var selectedItem = grid.dataItem(grid.select());
-		    	console.log(selectedItem.id);
 		    	$.ajax({
 		            url : 'startListening',
 		            type : 'POST',

@@ -7,21 +7,32 @@ import javax.persistence.Entity;
 
 
 public class HashtagReport implements Serializable {
-	private Integer id; 
  
     private String hashtagname;
      
     private Integer numOfTweets;
     
-    private Integer sentiment;
+    private Integer numOfNonanalyzedTweets;
+    
+    private Integer numOfPositiveTweets;
+    
+    private Integer numOfNeutralTweets;
+    
+    private Integer numOfNegativeTweets;
+    
+    public HashtagReport(){
+    	
+    }
+    
+    public HashtagReport(String hashtagname, Integer numOfTweets, Integer numOfNonanalyzedTweets, Integer numOfPositiveTweets, Integer numOfNeutralTweets, Integer numOfNegativeTweets){
+    	this.hashtagname = hashtagname;
+    	this.numOfTweets = numOfTweets;
+    	this.numOfNonanalyzedTweets = numOfNonanalyzedTweets;
+    	this.numOfPositiveTweets = numOfPositiveTweets;
+    	this.numOfNeutralTweets = numOfNeutralTweets;
+    	this.numOfNegativeTweets = numOfNegativeTweets;
+    }
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getHashtagname() {
 		return hashtagname;
@@ -39,11 +50,35 @@ public class HashtagReport implements Serializable {
 		this.numOfTweets = numOfTweets;
 	}
 
-	public Integer getSentiment() {
-		return sentiment;
+	public Integer getNumOfNonanalyzedTweets() {
+		return numOfNonanalyzedTweets;
 	}
 
-	public void setSentiment(Integer sentiment) {
-		this.sentiment = sentiment;
+	public void setNumOfNonanalyzedTweets(Integer numOfNonanalyzedTweets) {
+		this.numOfNonanalyzedTweets = numOfNonanalyzedTweets;
+	}
+
+	public Integer getNumOfPositiveTweets() {
+		return numOfPositiveTweets;
+	}
+
+	public void setNumOfPositiveTweets(Integer numOfPositiveTweets) {
+		this.numOfPositiveTweets = numOfPositiveTweets;
+	}
+
+	public Integer getNumOfNeutralTweets() {
+		return numOfNeutralTweets;
+	}
+
+	public void setNumOfNeutralTweets(Integer numOfNeutralTweets) {
+		this.numOfNeutralTweets = numOfNeutralTweets;
+	}
+
+	public Integer getNumOfNegativeTweets() {
+		return numOfNegativeTweets;
+	}
+
+	public void setNumOfNegativeTweets(Integer numOfNegativeTweets) {
+		this.numOfNegativeTweets = numOfNegativeTweets;
 	}
 }
