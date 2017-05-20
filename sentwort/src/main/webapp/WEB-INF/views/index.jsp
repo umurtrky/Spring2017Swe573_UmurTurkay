@@ -53,7 +53,7 @@
 									    </kendo:chart>
 									</div>
 								</td>
-								<td style="width:430px;">
+								<td style="width:380px;">
 									<div class="demo-section k-content wide" style="height:650px;">
 									    <kendo:chart name="messageChart" style="height:100%;">
 									        <kendo:chart-title text="Messages" />
@@ -67,7 +67,7 @@
 									    </kendo:chart>
 									</div>
 								</td>
-								<td style="width:470px;">
+								<td style="width:490px;">
 									<div class="demo-section k-content wide" style="height:650px;">
 									    <kendo:chart name="sentimentChart" style="height:100%;">
 									        <kendo:chart-title text="Sentiment" />
