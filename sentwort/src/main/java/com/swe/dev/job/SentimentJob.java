@@ -25,8 +25,6 @@ public class SentimentJob implements Job {
 	@Override
     public void execute(final JobExecutionContext ctx)
             throws JobExecutionException {
-
-      System.out.println("Executing Sentiment Job");
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		List<Message> nonAnalyzedMessages = new ArrayList<Message>();
 		nonAnalyzedMessages = messageService.findBySentiment(-1);

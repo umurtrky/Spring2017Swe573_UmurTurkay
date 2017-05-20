@@ -25,8 +25,6 @@ public class HashtagJob implements Job {
 	@Override
     public void execute(final JobExecutionContext ctx)
             throws JobExecutionException {
-
-        System.out.println("Executing Hashtag Job");
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		List<Hashtag> actives = new ArrayList<Hashtag>();
 		actives = hashtagDao.findActiveHashtags();
