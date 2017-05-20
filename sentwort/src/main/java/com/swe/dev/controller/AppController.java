@@ -2,6 +2,7 @@ package com.swe.dev.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +12,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
- 
+import javax.xml.bind.DatatypeConverter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.MessageSource;
@@ -28,18 +30,23 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.swe.dev.dao.SecretQuestionDao;
 import com.swe.dev.dao.UserDao;
 import com.swe.dev.model.Hashtag;
 import com.swe.dev.model.Message;
+import com.swe.dev.model.SecretQuestion;
+import com.swe.dev.model.SentimentReport;
 import com.swe.dev.model.Statistics;
 import com.swe.dev.model.User;
 import com.swe.dev.service.HashtagService;
 import com.swe.dev.service.MessageService;
+import com.swe.dev.service.SentimentService;
 import com.swe.dev.service.TwitterService;
 import com.swe.dev.service.UserService;
 
@@ -58,6 +65,12 @@ public class AppController {
     
     @Autowired
 	private HashtagService hashtagService;
+    
+    @Autowired
+    private SentimentService sentimentService;
+    
+    @Autowired
+    private SecretQuestionDao secretQuestionDao;
     
     @Autowired
     UserDao user;
@@ -148,16 +161,39 @@ public class AppController {
     	return "";
     }
     
-    @RequestMapping(value = "/messages", method = RequestMethod.GET)
-    public @ResponseBody List<Message> messages() {
-    	//twitterService.getTweets();
-    	//return messageService.findAllMessages();
+    @RequestMapping(value = "/messages", method = RequestMethod.POST)
+    public @ResponseBody List<SentimentReport> messages(@RequestBody ModelMap model) {
+    	try{
+	    	if(model.get("startdate") != null){
+	    		if(model.get("hashtagIds") != null && ((List<String>)model.get("hashtagIds")).size() != 0){
+		    		List<Integer> hashtagIds = (List<Integer>)model.get("hashtagIds");
+		    		List<Integer> sentiment = (List<Integer>)model.get("sentiment");
+		    		Date startdate = DatatypeConverter.parseDateTime(model.get("startdate").toString()).getTime(); 
+		    		Date enddate = DatatypeConverter.parseDateTime(model.get("enddate").toString()).getTime();
+		    		
+		    		return sentimentService.getFilteredReport(hashtagIds, startdate, enddate, sentiment);
+	    		}
+	    		else{
+	    			return retrieveAllReport();
+	    		}
+	    	}
+	    	else{
+	    		return retrieveAllReport();
+	    	}
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return null;
+    	}
+    }
+    
+    private List<SentimentReport> retrieveAllReport(){
     	List<Hashtag> hashtagsOfUser = hashtagService.findByUser(getPrincipal());
     	List<Integer> hashtagIds = new ArrayList<Integer>();
     	for(Hashtag hashtag : hashtagsOfUser){
     		hashtagIds.add(hashtag.getId());
     	}
-    	return messageService.findByHashtagId(hashtagIds);
+    	return sentimentService.getReport(hashtagIds);
     }
     
     @RequestMapping(value = "/tweets", method = RequestMethod.GET)
@@ -172,8 +208,108 @@ public class AppController {
         }
     	else{
     		model.addAttribute("loggedinuser", getPrincipal());
+    		model.addAttribute("today", new Date());
+    		long DAY_IN_MS = 1000 * 60 * 60 * 24;
+    		model.addAttribute("oneWeekBefore", new Date(System.currentTimeMillis() - (7 * DAY_IN_MS)));
         	return "sentimentReport";
     	}
+    }
+    
+    @RequestMapping(value = "/filter", method = RequestMethod.POST)
+    public @ResponseBody List<SentimentReport> filter(@RequestBody ModelMap model) {
+    	try{
+    		
+    		List<Integer> hashtagIds = (List<Integer>)model.get("hashtagIds");
+    		List<Integer> sentiment = (List<Integer>)model.get("sentiment");
+    		Date startdate = DatatypeConverter.parseDateTime(model.get("startdate").toString()).getTime(); 
+    		Date enddate = DatatypeConverter.parseDateTime(model.get("enddate").toString()).getTime();
+    		
+    		return sentimentService.getFilteredReport(hashtagIds, startdate, enddate, sentiment);
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return null;
+    	}
+        
+    }
+    
+    @RequestMapping(value = "/hashtags", method = RequestMethod.POST)
+    public @ResponseBody List<Hashtag> hashtags() {
+    	//twitterService.getTweets();
+    	//return messageService.findAllMessages();
+    	List<Hashtag> hashtagsOfUser = hashtagService.findByUser(getPrincipal());
+    	return hashtagsOfUser;
+    }
+    
+    @RequestMapping(value = { "/forgotPassword" }, method = RequestMethod.GET)
+    public String forgotPassword(ModelMap model) {
+    	model.addAttribute("displayQuestion", "none");
+    	model.addAttribute("displayAnswer", "none");
+    	model.addAttribute("displayPassword", "none");
+    	model.addAttribute("btnForgotPassword", "Submit");
+    	
+    	User user = new User();
+    	model.addAttribute("user", user);
+        model.addAttribute("loggedinuser", getPrincipal());
+        return "forgotPassword";
+    }
+    
+    @RequestMapping(value = { "/forgotPassword" }, method = RequestMethod.POST)
+    public String forgotPassword(User user, BindingResult result,
+            ModelMap model) {
+ 
+        if (result.hasErrors()) {
+            return "forgotPassword";
+        }
+         
+        if(user.getPassword() != null && !user.getPassword().isEmpty()){
+        	User usertoupdate = userService.findByUsername(user.getUsername());
+        	usertoupdate.setPassword(user.getPassword());
+        	userService.updateUser(usertoupdate);
+        	model.addAttribute("success", "Password changed successfully.");
+        	return "signin";
+        }
+        
+        if(user.getSecretquestionid() == null){
+        	user = userService.findByUsername(user.getUsername());
+        	
+        	getSecretQuestion(user, model);
+        	
+        	return "forgotPassword";
+        }
+ 
+        else if(user.getPassword().equals("")){
+        	User usertoupdate = userService.findByUsername(user.getUsername());
+        	if(usertoupdate.getSecretanswer().equals(user.getSecretanswer())){
+        		model.addAttribute("displayQuestion", "none");
+            	model.addAttribute("displayAnswer", "none");
+            	model.addAttribute("displayPassword", "inline");
+            	model.addAttribute("btnForgotPassword", "Change");
+        	}
+        	else{
+        		model.addAttribute("alertMessage", "Your answer is not correct.");
+        		getSecretQuestion(user, model);
+        	}
+        	
+        	return "forgotPassword";
+        }
+        
+        else{
+        	return "signin";
+        }
+        //return "success";
+    }
+    
+    private void getSecretQuestion(User user, ModelMap model){
+    	model.addAttribute("displayQuestion", "inline");
+    	model.addAttribute("displayAnswer", "inline");
+    	model.addAttribute("displayPassword", "none");
+    	model.addAttribute("btnForgotPassword", "New password");
+    	
+    	SecretQuestion question = secretQuestionDao.findById(user.getSecretquestionid());
+    	Map<Integer, String> questionMap = new HashMap<Integer, String>();
+    	questionMap.put(user.getSecretquestionid(), question.getSecretquestion());
+    	model.addAttribute("secretquestion", questionMap);
     }
  
     /**
@@ -181,6 +317,12 @@ public class AppController {
      */
     @RequestMapping(value = { "/newuser" }, method = RequestMethod.GET)
     public String newUser(ModelMap model) {
+    	List<SecretQuestion> questions = secretQuestionDao.findAllQuestions();
+    	Map<Integer, String> questionMap = new HashMap<Integer, String>();
+    	for(SecretQuestion question : questions){
+    		questionMap.put(question.getId(), question.getSecretquestion());
+    	}
+    	model.addAttribute("questions", questionMap);
         User user = new User();
         user.setCreateDate(new Date());
         model.addAttribute("user", user);

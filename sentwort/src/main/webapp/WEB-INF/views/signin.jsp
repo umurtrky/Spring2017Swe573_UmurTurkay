@@ -59,13 +59,14 @@
 								</p>
                             <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
                                  
-                            <p class="login button"> 
+                            	<p class="login button"> 
                                     <input type="submit" value="Login" /> 
 								</p>
                                 <p class="change_link">
-									Not a member yet ?
+									<a href="<c:url value='forgotPassword' />" class="to_register">Forgot password?</a>
+									or
 									<a href="<c:url value='/newuser' />" class="to_register">Register</a>
-							</p>
+								</p>
                         </form>
                     </div>
                 </div>

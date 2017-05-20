@@ -37,36 +37,39 @@
                             	<form:errors path="password" class="help-inline"/>
                             	<form:errors type="hidden" path="secretquestionid" class="help-inline"/>
                             	<form:errors path="secretanswer" class="help-inline"/>
-                                <h1> Sign up </h1> 
+                            	<div class="alert alert-success">
+                                    <p>${alertMessage}</p>
+                                </div>
+                                <h1> Forgot Password </h1> 
                                 <p> 
                                     <label for="username" class="uname" data-icon="u">Username</label>
                                     
                                     <form:input path="username" id="username" name="username" required="required" type="text" placeholder="username" />
                                 </p>
-                                <p> 
-                                    <label for="password" class="youpasswd" data-icon="p">Password </label>
+                                <p style="display:${displayQuestion}"> 
+                                    <label for="secretquestion" class="uname" data-icon="a">Your Secret Question</label>
                                     
-                                    <form:input path="password" id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO"/>
-                                </p>
-                                <p> 
-                                    <label for="secretquestion" class="uname" data-icon="q">Select your secret question </label>
-                                    
-                                    <form:select path="secretquestionid" id="secretquestion" name="secretquestion" required="required" type="select">
-                                    	<form:option value="">Select your secret question</form:option>
-                                    	<form:options items="${questions}"></form:options>
+                                    <form:select path="secretquestionid" id="secretquestion" name="secretquestion" type="select">
+                                    	<form:options items="${secretquestion}"></form:options>
                                     </form:select>
                                 </p>
-                                <p> 
+                                <p> </p>
+                                <p style="display:${displayAnswer}"> 
                                     <label for="secretanswer" class="uname" data-icon="a">Enter the answer of your secret question</label>
                                     
-                                    <form:input path="secretanswer" id="secretanswer" name="secretanswer" required="required" type="text" />
+                                    <form:input path="secretanswer" id="secretanswer" name="secretanswer" type="text"/>
+                                </p>
+                                <p style="display:${displayPassword}"> 
+                                    <label for="password" class="youpasswd" data-icon="p">Password </label>
+                                    
+                                    <form:input path="password" id="password" name="password" type="password" placeholder="eg. X8df!90EO"/>
                                 </p>
                                 <p class="signin button"> 
-									<input type="submit" value="Sign up"/> 
+									<input type="submit" value="${btnForgotPassword}"/> 
 								</p>
                                 <p class="change_link">  
-									Already a member ?
-									<a href="<c:url value='login' />" class="to_register">Go and log in</a>
+                                	Remember your password?
+									<a href="<c:url value='login' />" class="to_register">Login</a>
 								</p>
                             </form:form>
                         </div>

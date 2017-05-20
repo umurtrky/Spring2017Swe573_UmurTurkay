@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
                 entity.setPassword(passwordEncoder.encode(user.getPassword()));
             }
             entity.setSecretanswer(user.getSecretanswer());
-            entity.setSecretquestion(user.getSecretquestion());
+            entity.setSecretquestionid(user.getSecretquestionid());
             entity.setCreateDate(user.getCreateDate());
             entity.setUpdateDate(new Date());
         }

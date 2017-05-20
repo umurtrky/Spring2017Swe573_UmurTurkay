@@ -34,11 +34,11 @@ public class User implements Serializable{
     private String password;
          
     
-    private String secretquestion;
+    private Integer secretquestionid;
  
     
     private String secretanswer;
- 
+    
     
     private Date createDate;
     
@@ -76,18 +76,14 @@ public class User implements Serializable{
 		this.username = username;
 	}
 
-	@NotEmpty
-    @Column(name="secretquestion", nullable=false)
-	public String getSecretquestion() {
-		return secretquestion;
+	public Integer getSecretquestionid() {
+		return secretquestionid;
 	}
 
-	public void setSecretquestion(String secretquestion) {
-		this.secretquestion = secretquestion;
+	public void setSecretquestionid(Integer secretquestionid) {
+		this.secretquestionid = secretquestionid;
 	}
 
-	@NotEmpty
-    @Column(name="secretanswer", nullable=false)
 	public String getSecretanswer() {
 		return secretanswer;
 	}
