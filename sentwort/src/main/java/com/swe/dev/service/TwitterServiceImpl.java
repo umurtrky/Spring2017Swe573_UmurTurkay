@@ -72,7 +72,7 @@ public class TwitterServiceImpl implements TwitterService {
 					queryString += "#" + hashtags.get(i).getHashtagname();
 			}
 			Query query = new Query(queryString);
-			query.setCount(100);
+			query.setCount(200);
 			if(appconfig.getSinceid() != "0"){
 				query.setSinceId(Long.parseLong(appconfig.getSinceid()));
 			}
@@ -141,7 +141,6 @@ public class TwitterServiceImpl implements TwitterService {
 				List<Status> tweets = searchResult.getTweets();
 				
 				for (Status tweet : tweets) {
-	                System.out.println("@" + tweet.getUser().getScreenName() + " - " + tweet.getText() + " - " + tweet.getId());
 	                messages.add(StatusMessageConverter.convert(tweet));
 	            }
 			}
