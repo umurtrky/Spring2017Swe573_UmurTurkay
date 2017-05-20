@@ -11,4 +11,5 @@ public interface HashtagService {
 	List<Hashtag> findByMessageId(String messageid);
 	List<HashtagReport> getReport();
 	Long getNumberOfHashtags(int isactive);
+	List<Hashtag> findAllHashtags();
 }
