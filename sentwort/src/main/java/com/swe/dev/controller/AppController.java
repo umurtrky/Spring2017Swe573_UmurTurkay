@@ -189,11 +189,14 @@ public class AppController {
     
     private List<SentimentReport> retrieveAllReport(){
     	List<Hashtag> hashtagsOfUser = hashtagService.findByUser(getPrincipal());
-    	List<Integer> hashtagIds = new ArrayList<Integer>();
-    	for(Hashtag hashtag : hashtagsOfUser){
-    		hashtagIds.add(hashtag.getId());
+    	if(!hashtagsOfUser.isEmpty()){
+	    	List<Integer> hashtagIds = new ArrayList<Integer>();
+	    	for(Hashtag hashtag : hashtagsOfUser){
+	    		hashtagIds.add(hashtag.getId());
+	    	}
+	    	return sentimentService.getReport(hashtagIds);
     	}
-    	return sentimentService.getReport(hashtagIds);
+    	return new ArrayList<SentimentReport>();
     }
     
     @RequestMapping(value = "/tweets", method = RequestMethod.GET)
