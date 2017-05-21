@@ -37,6 +37,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/styles/*").addResourceLocations("/styles/");
         registry.addResourceHandler("/js/*").addResourceLocations("/js/");
+        registry.addResourceHandler("/images/*").addResourceLocations("/images/");
     }
      
 
