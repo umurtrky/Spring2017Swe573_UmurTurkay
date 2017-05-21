@@ -246,7 +246,7 @@
 	    	function buttonHandlerUnselect() {
 	    		var host = document.location.host;
 	    		var unslectImage = document.images[0].src;
-	    		if (unslectImage == "http://" + host + "/sentwort/images/dyg11.jpg") {
+	    		if (unslectImage == "http://" + host + "/images/dyg11.jpg") {
 	    			document.images[0].src = "<c:url value='/images/dyg1.jpg' />";
 	    		} else {
 	    			document.images[0].src = "<c:url value='/images/dyg11.jpg' />";
@@ -256,7 +256,7 @@
 	    	function buttonHandlerNotr() {
 	    		var host = document.location.host;
 	    		var notrImage = document.images[1].src;
-	    		if (notrImage == "http://" + host + "/sentwort/images/dyg2.jpg") {
+	    		if (notrImage == "http://" + host + "/images/dyg2.jpg") {
 	    			document.images[1].src = "<c:url value='/images/dyg21.jpg' />";
 	    		} else {
 	    			document.images[1].src = "<c:url value='/images/dyg2.jpg' />";
@@ -266,7 +266,7 @@
 	    	function buttonHandlerNegative() {
 	    		var host = document.location.host;
 	    		var negativeImage = document.images[2].src;
-	    		if (negativeImage == "http://" + host + "/sentwort/images/dyg3.jpg") {
+	    		if (negativeImage == "http://" + host + "/images/dyg3.jpg") {
 	    			document.images[2].src = "<c:url value='/images/dyg31.jpg' />";
 	    		} else {
 	    			document.images[2].src = "<c:url value='/images/dyg3.jpg' />";
@@ -276,7 +276,7 @@
 	    	function buttonHandlerPositive() {
 	    		var host = document.location.host;
 	    		var positiveImage = document.images[3].src;
-	    		if (positiveImage == "http://" + host + "/sentwort/images/dyg4.jpg") {
+	    		if (positiveImage == "http://" + host + "/images/dyg4.jpg") {
 	    			document.images[3].src = "<c:url value='/images/dyg41.jpg' />";
 	    		} else {
 	    			document.images[3].src = "<c:url value='/images/dyg4.jpg' />";
@@ -297,19 +297,19 @@
 	    		var notrImage = document.images[1].src;
 	    		var negativeImage = document.images[2].src;
 	    		var positiveImage = document.images[3].src;
-	    		if (unselectImage == "http://" + host + "/sentwort/images/dyg11.jpg") {
+	    		if (unselectImage == "http://" + host + "/images/dyg11.jpg") {
 	    			sentiment[0] = -1;
 	    		}
 	    		
-	    		if (notrImage == "http://" + host + "/sentwort/images/dyg2.jpg") {
+	    		if (notrImage == "http://" + host + "/images/dyg2.jpg") {
 	    			sentiment[1] = 2;
 	    		}
 	    		
-	    		if (negativeImage == "http://" + host + "/sentwort/images/dyg31.jpg") {
+	    		if (negativeImage == "http://" + host + "/images/dyg31.jpg") {
 	    			sentiment[2] = 0;
 	    		}
 	    		
-	    		if (positiveImage == "http://" + host + "/sentwort/images/dyg4.jpg") {
+	    		if (positiveImage == "http://" + host + "/images/dyg4.jpg") {
 	    			sentiment[3] = 4;
 	    		}
 	    		
