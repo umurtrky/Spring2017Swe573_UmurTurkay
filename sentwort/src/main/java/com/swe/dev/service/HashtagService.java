@@ -9,7 +9,7 @@ public interface HashtagService {
 	
 	List<Hashtag> findByUser(String username);
 	List<Hashtag> findByMessageId(String messageid);
-	List<HashtagReport> getReport();
-	Long getNumberOfHashtags(int isactive);
+	List<HashtagReport> getReport(Integer userid);
+	Long getNumberOfHashtags(int isactive, Integer userid);
 	List<Hashtag> findAllHashtags();
 }

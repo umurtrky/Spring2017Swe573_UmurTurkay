@@ -72,29 +72,31 @@ public class HashtagServiceImpl implements HashtagService {
 //		return result;
 //	}
 	
-	public List<HashtagReport> getReport(){
+	
+	public List<HashtagReport> getReport(Integer userid){
 		List<HashtagReport> result = new ArrayList<HashtagReport>();
 		
 		Query<HashtagReport> query = sessionFactory.getCurrentSession().createNativeQuery("select hashtagname, sum(numOfTweets) as numOfTweets, sum(numOfNonanalyzedTweets) as numOfNonanalyzedTweets, sum(numOfNegative) as numOfNegative, sum(numOfNeutral) as numOfNeutral, sum(numOfPositive) as numOfPositive from "                 
 			+"(select hashtagname, count(m.id) as numOfTweets, 0 as numOfNonanalyzedTweets, 0 as numOfNegative, 0 as numOfNeutral, 0 as numOfPositive from HASHTAG ht join MESSAGEHASHTAG mt on ht.id = mt.hashtagid "
-			+"join MESSAGE m on m.id = mt.messageid "
+			+"join MESSAGE m on m.id = mt.messageid join USERHASHTAG ut on ht.id = ut.hashtagid join USER u on ut.userid = u.id where u.id = :id "
 			 +"group by hashtagname "
 			 +"union all "
 			+"select hashtagname, 0 as numOfTweets, count(m.id) as numOfNonanalyzedTweets, 0 as numOfNegative, 0 as numOfNeutral, 0 as numOfPositive from HASHTAG ht join MESSAGEHASHTAG mt on ht.id = mt.hashtagid "
-			+"join MESSAGE m on m.id = mt.messageid where m.sentiment = -1 "
+			+"join MESSAGE m on m.id = mt.messageid join USERHASHTAG ut on ht.id = ut.hashtagid join USER u on ut.userid = u.id where m.sentiment = -1 and u.id = :id "
 			 +"group by hashtagname "
 			 +"union all "
 			 +"select hashtagname, 0 as numOfTweets, 0 as numOfNonanalyzedTweets, count(m.id) as numOfNegative, 0 as numOfNeutral, 0 as numOfPositive from HASHTAG ht join MESSAGEHASHTAG mt on ht.id = mt.hashtagid "
-			+"join MESSAGE m on m.id = mt.messageid where m.sentiment = 0 "
+			+"join MESSAGE m on m.id = mt.messageid join USERHASHTAG ut on ht.id = ut.hashtagid join USER u on ut.userid = u.id where m.sentiment = 0 and u.id = :id "
 			 +"group by hashtagname "
 			 +"union all "
 			 +"select hashtagname, 0 as numOfTweets, 0 as numOfNonanalyzedTweets, 0 as numOfNegative, count(m.id) as numOfNeutral, 0 as numOfPositive from HASHTAG ht join MESSAGEHASHTAG mt on ht.id = mt.hashtagid "
-			+"join MESSAGE m on m.id = mt.messageid where m.sentiment = 2 "
+			+"join MESSAGE m on m.id = mt.messageid join USERHASHTAG ut on ht.id = ut.hashtagid join USER u on ut.userid = u.id where m.sentiment = 2 and u.id = :id "
 			 +"group by hashtagname "
 			 +"union all "
 			 +"select hashtagname, 0 as numOfTweets, 0 as numOfNonanalyzedTweets, 0 as numOfNegative, 0 as numOfNeutral, count(m.id) as numOfPositive from HASHTAG ht join MESSAGEHASHTAG mt on ht.id = mt.hashtagid "
-			+"join MESSAGE m on m.id = mt.messageid where m.sentiment = 4 "
+			+"join MESSAGE m on m.id = mt.messageid join USERHASHTAG ut on ht.id = ut.hashtagid join USER u on ut.userid = u.id where m.sentiment = 4 and u.id = :id "
 			 +"group by hashtagname) as result group by hashtagname; ");
+		query.setParameter("id", userid);
 		
 //		Query<HashtagReport> query = sessionFactory.getCurrentSession().createQuery("select hashtagname, sum(numOfTweets) as numOfTweets, sum(numOfNonanalyzedTweets) as numOfNonanalyzedTweets, sum(numOfNegative) as numOfNegative, sum(numOfNeutral) as numOfNeutral, sum(numOfPositive) as numOfPositive from "                
 //				+"(select hashtagname, count(m.id) as numOfTweets, 0 as numOfNonanalyzedTweets, 0 as numOfNegative, 0 as numOfNeutral, 0 as numOfPositive from Hashtag ht, MessageHashtag mt, Message m where ht.id = mt.id.hashtagid "
@@ -135,14 +137,15 @@ public class HashtagServiceImpl implements HashtagService {
 		return result;
 	}
 	
-	public Long getNumberOfHashtags(int isactive){
+	public Long getNumberOfHashtags(int isactive, Integer userid){
 		Long number = Long.valueOf("0");
 		Query query = null;
-		query = sessionFactory.getCurrentSession().createQuery("SELECT count(ht.id) from Hashtag ht");
+		query = sessionFactory.getCurrentSession().createQuery("SELECT count(ht.id) from Hashtag ht, UserHashtag ut where ht.id = ut.id.hashtagid and ut.id.userid = :userid");
 		if(isactive != -1){
-			query = sessionFactory.getCurrentSession().createQuery("SELECT count(ht.id) from Hashtag ht where ht.isactive = :isactive");
+			query = sessionFactory.getCurrentSession().createQuery("SELECT count(ht.id) from Hashtag ht, UserHashtag ut where ht.id = ut.id.hashtagid and ut.id.userid = :userid and ht.isactive = :isactive");
 			query.setParameter("isactive", isactive);
 		}
+		query.setParameter("userid", userid);
 		number = (Long)query.uniqueResult();
 		return number;
 	}

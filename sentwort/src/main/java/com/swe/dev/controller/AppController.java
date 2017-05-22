@@ -96,24 +96,17 @@ public class AppController {
     	else{
     		model.addAttribute("loggedinuser", getPrincipal());
     		
-    		Long numofhashtags = hashtagService.getNumberOfHashtags(-1);
-        	Long numofactivehashtags = hashtagService.getNumberOfHashtags(1);
+    		Integer userid = userService.findByUsername(getPrincipal()).getId();
+    		Long numofhashtags = hashtagService.getNumberOfHashtags(-1, userid);
+        	Long numofactivehashtags = hashtagService.getNumberOfHashtags(1, userid);
         	Long numofpassivehashtags = numofhashtags - numofactivehashtags;
         	
-        	Long numOfMessages = messageService.getNumOfMessagesBySentiment(1);
-        	Long numOfPositiveMessages = messageService.getNumOfMessagesBySentiment(4);
-        	Long numOfNegativeMessages = messageService.getNumOfMessagesBySentiment(0);
-        	Long numOfNeutralMessages = messageService.getNumOfMessagesBySentiment(2);
+        	Long numOfMessages = messageService.getNumOfMessagesBySentiment(1, userid);
+        	Long numOfPositiveMessages = messageService.getNumOfMessagesBySentiment(4, userid);
+        	Long numOfNegativeMessages = messageService.getNumOfMessagesBySentiment(0, userid);
+        	Long numOfNeutralMessages = messageService.getNumOfMessagesBySentiment(2, userid);
         	Long numOfAnalyzedMessages = numOfPositiveMessages + numOfNegativeMessages + numOfNeutralMessages;
-//        	
-//        	model.addAttribute("numofhashtags", numofhashtags);
-//        	model.addAttribute("numofactivehashtags", numofactivehashtags);
-//        	model.addAttribute("numofpassivehashtags", numofpassivehashtags);
-//        	model.addAttribute("numOfMessages", numOfMessages);
-//        	model.addAttribute("numOfPositiveMessages", numOfPositiveMessages);
-//        	model.addAttribute("numOfNegativeMessages", numOfNegativeMessages);
-//        	model.addAttribute("numOfNeutralMessages", numOfNeutralMessages);
-//        	model.addAttribute("numOfAnalyzedMessages", numOfAnalyzedMessages);
+
         	
         	List<Statistics> pieChartDataHashtag = new ArrayList<Statistics>();
         	pieChartDataHashtag.add(new Statistics("active",numofactivehashtags,"#0066ff"));
@@ -140,14 +133,16 @@ public class AppController {
     
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
     public String statistics(ModelMap model) {
-    	Long numofhashtags = hashtagService.getNumberOfHashtags(-1);
-    	Long numofactivehashtags = hashtagService.getNumberOfHashtags(1);
+    	Integer userid = userService.findByUsername(getPrincipal()).getId();
+    	
+    	Long numofhashtags = hashtagService.getNumberOfHashtags(-1, userid);
+    	Long numofactivehashtags = hashtagService.getNumberOfHashtags(1, userid);
     	Long numofpassivehashtags = numofhashtags - numofactivehashtags;
     	
-    	Long numOfMessages = messageService.getNumOfMessagesBySentiment(1);
-    	Long numOfPositiveMessages = messageService.getNumOfMessagesBySentiment(4);
-    	Long numOfNegativeMessages = messageService.getNumOfMessagesBySentiment(0);
-    	Long numOfNeutralMessages = messageService.getNumOfMessagesBySentiment(2);
+    	Long numOfMessages = messageService.getNumOfMessagesBySentiment(1, userid);
+    	Long numOfPositiveMessages = messageService.getNumOfMessagesBySentiment(4, userid);
+    	Long numOfNegativeMessages = messageService.getNumOfMessagesBySentiment(0, userid);
+    	Long numOfNeutralMessages = messageService.getNumOfMessagesBySentiment(2, userid);
     	Long numOfNonAnalyzedMessages = numOfMessages - (numOfPositiveMessages + numOfNegativeMessages + numOfNeutralMessages);
     	
     	model.addAttribute("numofhashtags", numofhashtags);

@@ -21,5 +21,5 @@ public interface MessageService {
     
     void updateSentiment(Message message, Integer sentiment);
     
-    Long getNumOfMessagesBySentiment(Integer sentiment);
+    Long getNumOfMessagesBySentiment(Integer sentiment, Integer userid);
 }

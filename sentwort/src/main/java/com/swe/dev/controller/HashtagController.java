@@ -184,26 +184,10 @@ public class HashtagController {
     
     @RequestMapping(value = "/report", method = RequestMethod.GET)
     public @ResponseBody List<HashtagReport> report(ModelMap model) {
-    	return hashtagService.getReport();
+    	Integer userid = userService.findByUsername(getPrincipal()).getId();
+    	return hashtagService.getReport(userid);
     }
     
-//    @RequestMapping(value = "/analysis", method = RequestMethod.GET)
-//    public @ResponseBody List<Message> analysis() {
-//    	//twitterService.getTweets();
-//    	//return messageService.findAllMessages();
-//    	List<Message> nonAnalyzedMessages = new ArrayList<Message>();
-//		nonAnalyzedMessages = messageService.findBySentiment(-1);
-//		if(nonAnalyzedMessages.size() > 0){
-//			sentimentService.analyze(nonAnalyzedMessages);
-//		}
-//    	List<Hashtag> hashtagsOfUser = hashtagService.findByUser(getPrincipal());
-//    	twitterService.getTweets(hashtagsOfUser);
-//    	List<Integer> hashtagIds = new ArrayList<Integer>();
-//    	for(Hashtag hashtag : hashtagsOfUser){
-//    		hashtagIds.add(hashtag.getId());
-//    	}
-//    	return messageService.findByHashtagId(hashtagIds);
-//    }
     
     private String getPrincipal(){
         String userName = null;

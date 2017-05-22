@@ -74,14 +74,19 @@ public class MessageServiceImpl implements MessageService{
     	dao.updateSentiment(message, sentiment);
     }
     
-    public Long getNumOfMessagesBySentiment(Integer sentiment){
+    public Long getNumOfMessagesBySentiment(Integer sentiment, Integer userid){
     	Long number = Long.valueOf("0");
 		Query query = null;
-		query = sessionFactory.getCurrentSession().createQuery("SELECT count(m.id) from Message m");
+//		select message from message m join messagehashtag mt on m.id = mt.messageid
+//				 join userhashtag ut on ut.hashtagid = mt.hashtagid where ut.userid = 1
+		query = sessionFactory.getCurrentSession().createQuery("SELECT count(m.id) from Message m, MessageHashtag mt, UserHashtag ut "
+				+ "where m.id = mt.id.messageid and mt.id.hashtagid = ut.id.hashtagid and ut.id.userid = :userid");
 		if(sentiment != 1){
-			query = sessionFactory.getCurrentSession().createQuery("SELECT count(m.id) from Message m where m.sentiment = :sentiment");
+			query = sessionFactory.getCurrentSession().createQuery("SELECT count(m.id) from Message m, MessageHashtag mt, UserHashtag ut "
+					+ "where m.id = mt.id.messageid and mt.id.hashtagid = ut.id.hashtagid and ut.id.userid = :userid and m.sentiment = :sentiment");
 			query.setParameter("sentiment", sentiment);
 		}
+		query.setParameter("userid", userid);
 		
 		number = (Long)query.uniqueResult();
 		return number;
